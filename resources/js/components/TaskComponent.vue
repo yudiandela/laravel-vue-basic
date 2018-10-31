@@ -5,11 +5,11 @@
                 <div class="card rounded-0">
                     <div class="card-header">
                         Task List
-                        <button class="btn btn-primary btn-sm rounded-0 float-right">Add New Task</button>
+                        <button class="btn btn-primary btn-sm rounded-0 float-right"><i class="fa fa-plus"></i> Add New Task</button>
                     </div>
 
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -24,8 +24,8 @@
                                     <td>Nama Task</td>
                                     <td>high</td>
                                     <td>
-                                        <a href="#" class="btn btn-secondary btn-sm rounded-0">Edit</a>
-                                        <a href="#" class="btn btn-danger btn-sm rounded-0">Delete</a>
+                                        <button class="btn btn-secondary btn-sm rounded-0"><i class="fa fa-edit"></i> Edit</button>
+                                        <button class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>
                             </tbody>

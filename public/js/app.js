@@ -47480,64 +47480,57 @@ var staticRenderFns = [
               _c(
                 "button",
                 { staticClass: "btn btn-primary btn-sm rounded-0 float-right" },
-                [_vm._v("Add New Task")]
+                [
+                  _c("i", { staticClass: "fa fa-plus" }),
+                  _vm._v(" Add New Task")
+                ]
               )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _c(
-                "table",
-                { staticClass: "table table-bordered table-striped" },
-                [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", [_vm._v("#")]),
+              _c("table", { staticClass: "table table-bordered" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Task Name")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Priority")]),
+                    _vm._v(" "),
+                    _c("th")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("1")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Nama Task")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("high")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        { staticClass: "btn btn-secondary btn-sm rounded-0" },
+                        [
+                          _c("i", { staticClass: "fa fa-edit" }),
+                          _vm._v(" Edit")
+                        ]
+                      ),
                       _vm._v(" "),
-                      _c("th", [_vm._v("Task Name")]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v("Priority")]),
-                      _vm._v(" "),
-                      _c("th")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("1")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("Nama Task")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("high")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-secondary btn-sm rounded-0",
-                            attrs: { href: "#" }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-edit" }),
-                            _vm._v(" Edit")
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-danger btn-sm rounded-0",
-                            attrs: { href: "#" }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-trash" }),
-                            _vm._v(" Delete")
-                          ]
-                        )
-                      ])
+                      _c(
+                        "button",
+                        { staticClass: "btn btn-danger btn-sm rounded-0" },
+                        [
+                          _c("i", { staticClass: "fa fa-trash" }),
+                          _vm._v(" Delete")
+                        ]
+                      )
                     ])
                   ])
-                ]
-              )
+                ])
+              ])
             ])
           ])
         ])
