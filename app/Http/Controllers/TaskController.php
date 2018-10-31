@@ -39,7 +39,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:191',
+            'prior' => 'required'
+        ]);
+
+        $tasks = Task::create([
+            'name' => $request->name,
+            'prior' => $request->prior,
+            'user_id' => $request->user_id
+        ]);
+
+        return response()->json([
+            'data' => $tasks,
+            'message' => 'Success'
+        ]);
     }
 
     /**
