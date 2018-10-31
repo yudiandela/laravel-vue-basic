@@ -52,8 +52,8 @@ class TaskController extends Controller
 
         return response()->json([
             'data' => $tasks,
-            'message' => 'Success'
-        ]);
+            'message' => 'success'
+        ], 201);
     }
 
     /**
@@ -87,7 +87,20 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:191',
+            'prior' => 'required'
+        ]);
+
+        $task->name = $request->name;
+        $task->prior = $request->prior;
+        $task->user_id = $request->user_id;
+        $task->save();
+
+        return response()->json([
+            'data' => $task,
+            'message' => 'success'
+        ], 201);
     }
 
     /**
