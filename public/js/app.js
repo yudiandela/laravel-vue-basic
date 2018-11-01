@@ -47545,16 +47545,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             tasks: [],
             task: {
+                id: '',
                 name: '',
                 prior: ''
             },
-            errors: []
+            errors: [],
+            edit: false
         };
     },
 
@@ -47574,25 +47577,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.tasks = response.data.data;
             });
         },
-        createTask: function createTask() {
+        saveTask: function saveTask() {
             var _this2 = this;
 
             this.errors = [];
-            axios.post('/task', {
-                name: this.task.name,
-                prior: this.task.prior
-            }).then(function (response) {
-                _this2.getTasks();
-                _this2.resetFormModal();
-                _this2.hideModal();
-            }).catch(function (error) {
-                if (error.response.data.errors.name) {
-                    _this2.errors.push(error.response.data.errors.name[0]);
-                }
-                if (error.response.data.errors.prior) {
-                    _this2.errors.push(error.response.data.errors.prior[0]);
-                }
-            });
+            if (this.edit === false) {
+                axios.post('/task', {
+                    name: this.task.name,
+                    prior: this.task.prior
+                }).then(function (response) {
+                    _this2.getTasks();
+                    _this2.resetFormModal();
+                    _this2.hideModal();
+                }).catch(function (error) {
+                    if (error.response.data.errors.name) {
+                        _this2.errors.push(error.response.data.errors.name[0]);
+                    }
+                    if (error.response.data.errors.prior) {
+                        _this2.errors.push(error.response.data.errors.prior[0]);
+                    }
+                });
+            } else {
+                axios.put('/task/' + this.task.id, {
+                    name: this.task.name,
+                    prior: this.task.prior
+                }).then(function (response) {
+                    _this2.getTasks();
+                    _this2.resetFormModal();
+                    _this2.hideModal();
+                }).catch(function (error) {
+                    if (error.response.data.errors.name) {
+                        _this2.errors.push(error.response.data.errors.name[0]);
+                    }
+                    if (error.response.data.errors.prior) {
+                        _this2.errors.push(error.response.data.errors.prior[0]);
+                    }
+                });
+            }
+        },
+        addTask: function addTask(task) {
+            this.resetFormModal();
+            this.edit = false;
+            this.showModal();
+        },
+        updateTask: function updateTask(task) {
+            this.task.id = task.id;
+            this.task.name = task.name;
+            this.task.prior = task.prior;
+
+            this.edit = true;
+
+            this.showModal();
         },
         resetFormModal: function resetFormModal() {
             this.errors = [];
@@ -47625,7 +47660,7 @@ var render = function() {
                 staticClass: "btn btn-primary btn-sm rounded-0 float-right",
                 on: {
                   click: function($event) {
-                    _vm.showModal()
+                    _vm.addTask()
                   }
                 }
               },
@@ -47650,7 +47685,22 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(task.prior))]),
                     _vm._v(" "),
-                    _vm._m(1, true)
+                    _c("td", { staticClass: "text-center" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary btn-sm rounded-0",
+                          on: {
+                            click: function($event) {
+                              _vm.updateTask(task)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1, true)
+                    ])
                   ])
                 })
               )
@@ -47678,7 +47728,27 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content rounded-0" }, [
-              _vm._m(2),
+              _c("div", { staticClass: "modal-header" }, [
+                _vm.edit
+                  ? _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title",
+                        attrs: { id: "ModalTaskLabel" }
+                      },
+                      [_vm._v("Edit Task")]
+                    )
+                  : _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title",
+                        attrs: { id: "ModalTaskLabel" }
+                      },
+                      [_vm._v("Add Task")]
+                    ),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _vm.errors.length > 0
@@ -47825,7 +47895,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
-                        _vm.createTask()
+                        _vm.saveTask()
                       }
                     }
                   },
@@ -47848,7 +47918,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Task Name")]),
+        _c("th", [_vm._v("Task Title")]),
         _vm._v(" "),
         _c("th", [_vm._v("Priority")]),
         _vm._v(" "),
@@ -47860,42 +47930,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-secondary btn-sm rounded-0" }, [
-        _c("i", { staticClass: "fa fa-edit" }),
-        _vm._v(" Edit")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
-        _c("i", { staticClass: "fa fa-trash" }),
-        _vm._v(" Delete")
-      ])
+    return _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
+      _c("i", { staticClass: "fa fa-trash" })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "ModalTaskLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

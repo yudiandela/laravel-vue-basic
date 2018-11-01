@@ -5,7 +5,7 @@
                 <div class="card rounded-0">
                     <div class="card-header">
                         Task List
-                        <button class="btn btn-primary btn-sm rounded-0 float-right" @click="showModal()">
+                        <button class="btn btn-primary btn-sm rounded-0 float-right" @click="addTask()">
                             <i class="fa fa-plus"></i> Add New Task
                         </button>
                     </div>
@@ -15,7 +15,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Task Name</th>
+                                    <th>Task Title</th>
                                     <th>Priority</th>
                                     <th></th>
                                 </tr>
@@ -25,9 +25,9 @@
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ task.name }}</td>
                                     <td>{{ task.prior }}</td>
-                                    <td>
-                                        <button class="btn btn-secondary btn-sm rounded-0"><i class="fa fa-edit"></i> Edit</button>
-                                        <button class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i> Delete</button>
+                                    <td class="text-center">
+                                        <button @click="updateTask(task)" class="btn btn-secondary btn-sm rounded-0"><i class="fa fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -42,7 +42,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content rounded-0">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ModalTaskLabel">Modal title</h5>
+                        <h5 class="modal-title" id="ModalTaskLabel" v-if="edit">Edit Task</h5>
+                        <h5 class="modal-title" id="ModalTaskLabel" v-else>Add Task</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -73,7 +74,7 @@
                     <div class="modal-footer">
                         <button @click="resetFormModal()" type="button" class="btn btn-warning rounded-0">Reset Form</button>
                         <button @click="hideModal()" type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Close</button>
-                        <button @click="createTask()" type="button" class="btn btn-primary rounded-0">Submit Data</button>
+                        <button @click="saveTask()" type="button" class="btn btn-primary rounded-0">Submit Data</button>
                     </div>
                 </div>
             </div>
@@ -87,10 +88,12 @@ export default {
         return {
             tasks: [],
             task: {
+                id: '',
                 name:'',
                 prior:''
             },
-            errors: []
+            errors: [],
+            edit: false
         }
     },
 
@@ -111,25 +114,61 @@ export default {
                 })
         },
 
-        createTask() {
+        saveTask() {
             this.errors = []
-            axios.post('/task', {
-                name: this.task.name,
-                prior: this.task.prior
-            })
-            .then(response => {
-                this.getTasks()
-                this.resetFormModal()
-                this.hideModal()
-            })
-            .catch(error => {
-                if(error.response.data.errors.name){
-                    this.errors.push(error.response.data.errors.name[0])
-                }
-                if(error.response.data.errors.prior){
-                    this.errors.push(error.response.data.errors.prior[0])
-                }
-            })
+            if (this.edit === false) {
+                axios.post('/task', {
+                    name: this.task.name,
+                    prior: this.task.prior
+                })
+                .then(response => {
+                    this.getTasks()
+                    this.resetFormModal()
+                    this.hideModal()
+                })
+                .catch(error => {
+                    if(error.response.data.errors.name){
+                        this.errors.push(error.response.data.errors.name[0])
+                    }
+                    if(error.response.data.errors.prior){
+                        this.errors.push(error.response.data.errors.prior[0])
+                    }
+                })
+            } else {
+                axios.put('/task/' + this.task.id, {
+                    name: this.task.name,
+                    prior: this.task.prior
+                })
+                .then(response => {
+                    this.getTasks()
+                    this.resetFormModal()
+                    this.hideModal()
+                })
+                .catch(error => {
+                    if(error.response.data.errors.name){
+                        this.errors.push(error.response.data.errors.name[0])
+                    }
+                    if(error.response.data.errors.prior){
+                        this.errors.push(error.response.data.errors.prior[0])
+                    }
+                })
+            }
+        },
+
+        addTask(task) {
+            this.resetFormModal()
+            this.edit = false
+            this.showModal()
+        },
+
+        updateTask(task) {
+            this.task.id = task.id
+            this.task.name = task.name
+            this.task.prior = task.prior
+
+            this.edit = true
+
+            this.showModal()
         },
 
         resetFormModal() {

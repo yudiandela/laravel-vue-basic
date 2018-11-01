@@ -94,7 +94,7 @@ class TaskController extends Controller
 
         $task->name = $request->name;
         $task->prior = $request->prior;
-        $task->user_id = $request->user_id;
+        $task->user_id = $request->user()->id;
         $task->save();
 
         return response()->json([
