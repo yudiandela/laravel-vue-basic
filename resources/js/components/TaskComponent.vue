@@ -48,14 +48,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div v-if="errors.length > 0" class="alert alert-danger rounded-0 p-0" role="alert">
+                            <ul class="list-group list-group-flush">
+                                <li v-for="(error, key) in errors" :key="key" class="list-group-item">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </div>
+
                         <div class="form-group">
                             <label for="">Task Name</label>
-                            <input type="text" name="name" class="form-control">
+                            <input v-model="task.name" type="text" name="name" class="form-control rounded-0">
                         </div>
 
                         <div class="form-group">
                             <label for="">Priority</label>
-                            <select name="prior" id="" class="form-control">
+                            <select v-model="task.prior" name="prior" id="" class="form-control rounded-0">
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
                                 <option value="high">High</option>
@@ -63,8 +71,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary rounded-0">Save changes</button>
+                        <button @click="resetFormModal()" type="button" class="btn btn-warning rounded-0">Reset Form</button>
+                        <button @click="hideModal()" type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Close</button>
+                        <button @click="createTask()" type="button" class="btn btn-primary rounded-0">Submit Data</button>
                     </div>
                 </div>
             </div>
@@ -76,23 +85,62 @@
 export default {
     data() {
         return {
-            tasks: []
+            tasks: [],
+            task: {
+                name:'',
+                prior:''
+            },
+            errors: []
         }
     },
+
     methods: {
-        showModal(){
+        showModal() {
+            this.errors = []
             $("#ModalTask").modal("show");
         },
 
-        getTask(){
+        hideModal() {
+            $("#ModalTask").modal("hide")
+        },
+
+        getTasks() {
             axios.get('/task')
                 .then(response => {
                     this.tasks = response.data.data
                 })
+        },
+
+        createTask() {
+            this.errors = []
+            axios.post('/task', {
+                name: this.task.name,
+                prior: this.task.prior
+            })
+            .then(response => {
+                this.getTasks()
+                this.resetFormModal()
+                this.hideModal()
+            })
+            .catch(error => {
+                if(error.response.data.errors.name){
+                    this.errors.push(error.response.data.errors.name[0])
+                }
+                if(error.response.data.errors.prior){
+                    this.errors.push(error.response.data.errors.prior[0])
+                }
+            })
+        },
+
+        resetFormModal() {
+            this.errors = []
+            this.task.name = '',
+            this.task.prior = ''
         }
     },
-    mounted(){
-        this.getTask()
+
+    mounted() {
+        this.getTasks()
     }
 }
 </script>

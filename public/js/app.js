@@ -47536,28 +47536,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            tasks: []
+            tasks: [],
+            task: {
+                name: '',
+                prior: ''
+            },
+            errors: []
         };
     },
 
+
     methods: {
         showModal: function showModal() {
+            this.errors = [];
             $("#ModalTask").modal("show");
         },
-        getTask: function getTask() {
+        hideModal: function hideModal() {
+            $("#ModalTask").modal("hide");
+        },
+        getTasks: function getTasks() {
             var _this = this;
 
             axios.get('/task').then(function (response) {
                 _this.tasks = response.data.data;
             });
+        },
+        createTask: function createTask() {
+            var _this2 = this;
+
+            this.errors = [];
+            axios.post('/task', {
+                name: this.task.name,
+                prior: this.task.prior
+            }).then(function (response) {
+                _this2.getTasks();
+                _this2.resetFormModal();
+                _this2.hideModal();
+            }).catch(function (error) {
+                if (error.response.data.errors.name) {
+                    _this2.errors.push(error.response.data.errors.name[0]);
+                }
+                if (error.response.data.errors.prior) {
+                    _this2.errors.push(error.response.data.errors.prior[0]);
+                }
+            });
+        },
+        resetFormModal: function resetFormModal() {
+            this.errors = [];
+            this.task.name = '', this.task.prior = '';
         }
     },
+
     mounted: function mounted() {
-        this.getTask();
+        this.getTasks();
     }
 });
 
@@ -47616,7 +47660,183 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(2)
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "ModalTask",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "ModalTaskLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content rounded-0" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm.errors.length > 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert alert-danger rounded-0 p-0",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c(
+                          "ul",
+                          { staticClass: "list-group list-group-flush" },
+                          _vm._l(_vm.errors, function(error, key) {
+                            return _c(
+                              "li",
+                              { key: key, staticClass: "list-group-item" },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(error) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          })
+                        )
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Task Name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.task.name,
+                        expression: "task.name"
+                      }
+                    ],
+                    staticClass: "form-control rounded-0",
+                    attrs: { type: "text", name: "name" },
+                    domProps: { value: _vm.task.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.task, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Priority")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.task.prior,
+                          expression: "task.prior"
+                        }
+                      ],
+                      staticClass: "form-control rounded-0",
+                      attrs: { name: "prior", id: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.task,
+                            "prior",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "low" } }, [
+                        _vm._v("Low")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "medium" } }, [
+                        _vm._v("Medium")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "high" } }, [
+                        _vm._v("High")
+                      ])
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning rounded-0",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.resetFormModal()
+                      }
+                    }
+                  },
+                  [_vm._v("Reset Form")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary rounded-0",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.hideModal()
+                      }
+                    }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary rounded-0",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.createTask()
+                      }
+                    }
+                  },
+                  [_vm._v("Submit Data")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -47656,112 +47876,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "ModalTask",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "ModalTaskLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content rounded-0" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "ModalTaskLabel" }
-                  },
-                  [_vm._v("Modal title")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Task Name")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", name: "name" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Priority")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      staticClass: "form-control",
-                      attrs: { name: "prior", id: "" }
-                    },
-                    [
-                      _c("option", { attrs: { value: "low" } }, [
-                        _vm._v("Low")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "medium" } }, [
-                        _vm._v("Medium")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "high" } }, [
-                        _vm._v("High")
-                      ])
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary rounded-0",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary rounded-0",
-                    attrs: { type: "button" }
-                  },
-                  [_vm._v("Save changes")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "ModalTaskLabel" } },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
   }
 ]
 render._withStripped = true
