@@ -47512,6 +47512,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.showModal();
         },
+        deleteTask: function deleteTask(task) {
+            var _this3 = this;
+
+            var decision = confirm('Yakin ingin menghapus data ' + task.name);
+            if (decision === true) {
+                axios.delete('/task/' + task.id).then(function (response) {
+                    _this3.getTasks();
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
         resetFormModal: function resetFormModal() {
             this.errors = [];
             this.task.name = '', this.task.prior = '';
@@ -47582,7 +47594,18 @@ var render = function() {
                         [_c("i", { staticClass: "fa fa-edit" })]
                       ),
                       _vm._v(" "),
-                      _vm._m(1, true)
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm rounded-0",
+                          on: {
+                            click: function($event) {
+                              _vm.deleteTask(task)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-trash" })]
+                      )
                     ])
                   ])
                 })
@@ -47630,7 +47653,7 @@ var render = function() {
                       [_vm._v("Add Task")]
                     ),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(1)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
@@ -47664,7 +47687,7 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Task Name")]),
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Task Title")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -47807,14 +47830,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
-      _c("i", { staticClass: "fa fa-trash" })
     ])
   },
   function() {

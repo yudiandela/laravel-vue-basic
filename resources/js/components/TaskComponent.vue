@@ -27,7 +27,7 @@
                                     <td>{{ task.prior }}</td>
                                     <td class="text-center">
                                         <button @click="updateTask(task)" class="btn btn-secondary btn-sm rounded-0"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i></button>
+                                        <button @click="deleteTask(task)" class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">Task Name</label>
+                            <label for="">Task Title</label>
                             <input v-model="task.name" type="text" name="name" class="form-control rounded-0">
                         </div>
 
@@ -169,6 +169,19 @@ export default {
             this.edit = true
 
             this.showModal()
+        },
+
+        deleteTask(task){
+            let decision = confirm('Yakin ingin menghapus data ' + task.name)
+            if (decision === true) {
+                axios.delete('/task/' + task.id)
+                    .then(response => {
+                        this.getTasks()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         },
 
         resetFormModal() {
