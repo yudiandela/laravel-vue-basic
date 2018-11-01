@@ -13988,7 +13988,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(45);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
@@ -47416,9 +47416,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(11)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(44)
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(45)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47458,84 +47458,289 @@ module.exports = Component.exports
 
 /***/ }),
 /* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    methods: {
+        showModal: function showModal() {
+            $("#ModalTask").modal("show");
+        }
+    },
+    mounted: function mounted() {
+        console.log('component task');
+    }
+});
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row " }, [
+      _c("div", { staticClass: "col-md-10 offset-md-1" }, [
+        _c("div", { staticClass: "card rounded-0" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("\n                    Task List\n                    "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-sm rounded-0 float-right",
+                on: {
+                  click: function($event) {
+                    _vm.showModal()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus" }),
+                _vm._v(" Add New Task\n                    ")
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(1)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row " }, [
-        _c("div", { staticClass: "col-md-10 offset-md-1" }, [
-          _c("div", { staticClass: "card rounded-0" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("\n                    Task List\n                    "),
+    return _c("div", { staticClass: "card-body" }, [
+      _c("table", { staticClass: "table table-bordered" }, [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [_vm._v("#")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Task Name")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Priority")]),
+            _vm._v(" "),
+            _c("th")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tbody", [
+          _c("tr", [
+            _c("td", [_vm._v("1")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("Nama Task")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("high")]),
+            _vm._v(" "),
+            _c("td", [
               _c(
                 "button",
-                { staticClass: "btn btn-primary btn-sm rounded-0 float-right" },
-                [
-                  _c("i", { staticClass: "fa fa-plus" }),
-                  _vm._v(" Add New Task")
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("table", { staticClass: "table table-bordered" }, [
-                _c("thead", [
-                  _c("tr", [
-                    _c("th", [_vm._v("#")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Task Name")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Priority")]),
-                    _vm._v(" "),
-                    _c("th")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tbody", [
-                  _c("tr", [
-                    _c("td", [_vm._v("1")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("Nama Task")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("high")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        { staticClass: "btn btn-secondary btn-sm rounded-0" },
-                        [
-                          _c("i", { staticClass: "fa fa-edit" }),
-                          _vm._v(" Edit")
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        { staticClass: "btn btn-danger btn-sm rounded-0" },
-                        [
-                          _c("i", { staticClass: "fa fa-trash" }),
-                          _vm._v(" Delete")
-                        ]
-                      )
-                    ])
-                  ])
-                ])
+                { staticClass: "btn btn-secondary btn-sm rounded-0" },
+                [_c("i", { staticClass: "fa fa-edit" }), _vm._v(" Edit")]
+              ),
+              _vm._v(" "),
+              _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
+                _c("i", { staticClass: "fa fa-trash" }),
+                _vm._v(" Delete")
               ])
             ])
           ])
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "ModalTask",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "ModalTaskLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content rounded-0" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "ModalTaskLabel" }
+                  },
+                  [_vm._v("Modal title")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Task Name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "name" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Priority")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      staticClass: "form-control",
+                      attrs: { name: "prior", id: "" }
+                    },
+                    [
+                      _c("option", { attrs: { value: "low" } }, [
+                        _vm._v("Low")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "medium" } }, [
+                        _vm._v("Medium")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "high" } }, [
+                        _vm._v("High")
+                      ])
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary rounded-0",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary rounded-0",
+                    attrs: { type: "button" }
+                  },
+                  [_vm._v("Save changes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -47548,7 +47753,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
