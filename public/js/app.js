@@ -47538,13 +47538,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            tasks: []
+        };
+    },
+
     methods: {
         showModal: function showModal() {
             $("#ModalTask").modal("show");
+        },
+        getTask: function getTask() {
+            var _this = this;
+
+            axios.get('/task').then(function (response) {
+                _this.tasks = response.data.data;
+            });
         }
     },
     mounted: function mounted() {
-        console.log('component task');
+        this.getTask();
     }
 });
 
@@ -47579,12 +47592,31 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "card-body" }, [
+            _c("table", { staticClass: "table table-bordered" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.tasks, function(task, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(task.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(task.prior))]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                })
+              )
+            ])
+          ])
         ])
       ])
     ]),
     _vm._v(" "),
-    _vm._m(1)
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -47592,42 +47624,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", [_vm._v("#")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Task Name")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Priority")]),
-            _vm._v(" "),
-            _c("th")
-          ])
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("1")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Nama Task")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("high")]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                { staticClass: "btn btn-secondary btn-sm rounded-0" },
-                [_c("i", { staticClass: "fa fa-edit" }), _vm._v(" Edit")]
-              ),
-              _vm._v(" "),
-              _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
-                _c("i", { staticClass: "fa fa-trash" }),
-                _vm._v(" Delete")
-              ])
-            ])
-          ])
-        ])
+        _c("th", [_vm._v("Task Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Priority")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-secondary btn-sm rounded-0" }, [
+        _c("i", { staticClass: "fa fa-edit" }),
+        _vm._v(" Edit")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-danger btn-sm rounded-0" }, [
+        _c("i", { staticClass: "fa fa-trash" }),
+        _vm._v(" Delete")
       ])
     ])
   },

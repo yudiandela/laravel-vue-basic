@@ -21,10 +21,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Nama Task</td>
-                                    <td>high</td>
+                                <tr v-for="(task, index) in tasks" :key="index">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ task.name }}</td>
+                                    <td>{{ task.prior }}</td>
                                     <td>
                                         <button class="btn btn-secondary btn-sm rounded-0"><i class="fa fa-edit"></i> Edit</button>
                                         <button class="btn btn-danger btn-sm rounded-0"><i class="fa fa-trash"></i> Delete</button>
@@ -74,13 +74,25 @@
 
 <script>
 export default {
+    data() {
+        return {
+            tasks: []
+        }
+    },
     methods: {
         showModal(){
             $("#ModalTask").modal("show");
+        },
+
+        getTask(){
+            axios.get('/task')
+                .then(response => {
+                    this.tasks = response.data.data
+                })
         }
     },
     mounted(){
-        console.log('component task')
+        this.getTask()
     }
 }
 </script>
