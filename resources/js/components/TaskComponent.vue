@@ -33,6 +33,14 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="card-footer">
+                        <ul class="pagination m-0 justify-content-center">
+                            <li :class="[{disabled: !pagination.prev_page_url}]" class="page-item mr-auto"><button @click="getTasks(pagination.prev_page_url)" class="page-link rounded-0">&laquo; Prev</button></li>
+                            <li class="page-item disabled"><button class="page-link rounded-0">{{ pagination.current_page }} of {{ pagination.last_page }}</button></li>
+                            <li :class="[{disabled: !pagination.next_page_url}]" class="page-item ml-auto"><button @click="getTasks(pagination.next_page_url)" class="page-link rounded-0">Next &raquo;</button></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,7 +80,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button @click="resetFormModal()" type="button" class="btn btn-warning rounded-0">Reset Form</button>
+                        <button @click="resetFormModal()" type="button" class="btn btn-warning rounded-0 mr-auto">Reset Form</button>
                         <button @click="hideModal()" type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Close</button>
                         <button @click="saveTask()" type="button" class="btn btn-primary rounded-0">Submit Data</button>
                     </div>
@@ -93,7 +101,8 @@ export default {
                 prior:''
             },
             errors: [],
-            edit: false
+            edit: false,
+            pagination: {}
         }
     },
 
@@ -107,10 +116,12 @@ export default {
             $("#ModalTask").modal("hide")
         },
 
-        getTasks() {
-            axios.get('/task')
+        getTasks(page_url) {
+            let url = page_url || '/task'
+            axios.get(url)
                 .then(response => {
-                    this.tasks = response.data.data
+                    this.tasks = response.data.data,
+                    this.createPagination(response.data.meta, response.data.links)
                 })
         },
 
@@ -188,6 +199,17 @@ export default {
             this.errors = []
             this.task.name = '',
             this.task.prior = ''
+        },
+
+        createPagination(meta, links){
+            let pagination = {
+                current_page : meta.current_page,
+                last_page : meta.last_page,
+                next_page_url : links.next,
+                prev_page_url : links.prev,
+            }
+
+            this.pagination = pagination;
         }
     },
 

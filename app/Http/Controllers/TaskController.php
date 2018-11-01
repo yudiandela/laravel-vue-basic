@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
+use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
 {
@@ -14,11 +15,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::paginate(5);
 
-        return response()->json([
-            'data' => $tasks
-        ], 200);
+        return TaskResource::collection($tasks);
     }
 
     /**
